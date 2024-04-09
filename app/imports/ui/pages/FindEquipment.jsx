@@ -11,7 +11,7 @@ import { Interests } from '../../api/interests/Interests';
 import { Equipments } from '../../api/equipments/Equipments';
 import { EquipmentsInterests } from '../../api/equipments/EquipmentsInterests';
 import MultiSelectField from '../forms/controllers/MultiSelectField';
-import { EquipmentsSessions } from '../../api/equipments/EquipmentsWorkouts';
+import { EquipmentsWorkouts } from '../../api/equipments/EquipmentsWorkouts';
 import { EquipmentsParticipation } from '../../api/equipments/EquipmentsParticipation';
 
 /** Create a schema to specify the structure of the data to appear in the form. */
@@ -23,10 +23,10 @@ const makeSchema = (allInterests) => new SimpleSchema({
 function getEquipmentData(email) {
   const data = Equipments.collection.findOne({ email });
   const interests = _.pluck(EquipmentsInterests.collection.find({ equipment: email }).fetch(), 'interest');
-  const sessions = _.pluck(EquipmentsSessions.collection.find({ equipment: email }).fetch(), 'session');
-  const participation = _.pluck(EquipmentsParticipation.collection.find({ equipment: email }).fetch(), 'session');
+  const workouts = _.pluck(EquipmentsWorkouts.collection.find({ equipment: email }).fetch(), 'workout');
+  const participation = _.pluck(EquipmentsParticipation.collection.find({ equipment: email }).fetch(), 'workout');
   // console.log(_.extend({ }, data, { interests, projects: projectPictures }));
-  return _.extend({}, data, { interests, sessions, participation });
+  return _.extend({}, data, { interests, workouts, participation });
 }
 
 /** Component for layout out a equipment Card. */
@@ -48,12 +48,12 @@ const MakeCard = (props) => (
         (interest, index) => <Label key={index} size='tiny' color='teal'>{interest}</Label>)}
     </Card.Content>
     <Card.Content extra>
-      <Header as='h5'>Sessions</Header>
-      {_.map(props.equipment.sessions, (session, index) => <Label key={index} size='tiny' color='teal'>{session}</Label>)}
+      <Header as='h5'>Workouts</Header>
+      {_.map(props.equipment.workouts, (workout, index) => <Label key={index} size='tiny' color='teal'>{workout}</Label>)}
     </Card.Content>
     <Card.Content extra>
-      <Header as='h5'>Joined Sessions</Header>
-      {_.map(props.equipment.participation, (session, index) => <Label key={index} size='tiny' color='teal'>{session}</Label>)}
+      <Header as='h5'>Joined Workouts</Header>
+      {_.map(props.equipment.participation, (workout, index) => <Label key={index} size='tiny' color='teal'>{workout}</Label>)}
     </Card.Content>
   </Card>
 );
@@ -120,7 +120,7 @@ export default withTracker(() => {
   // Ensure that minimongo is populated with all collections prior to running render().
   const sub1 = Meteor.subscribe(Equipments.userPublicationName);
   const sub2 = Meteor.subscribe(EquipmentsInterests.userPublicationName);
-  const sub3 = Meteor.subscribe(EquipmentsSessions.userPublicationName);
+  const sub3 = Meteor.subscribe(EquipmentsWorkouts.userPublicationName);
   const sub4 = Meteor.subscribe(EquipmentsParticipation.userPublicationName);
   const sub5 = Meteor.subscribe(Interests.userPublicationName);
   return {
