@@ -5,9 +5,41 @@
   ],
 
   "defaultData": [
-    { "name": "Basket", "quantity": 3, "owner": "john@foo.com", "condition": "excellent" },
-    { "name": "Bicycle", "quantity": 2, "owner": "john@foo.com", "condition": "poor" },
-    { "name": "Banana", "quantity": 2, "owner": "admin@foo.com", "condition": "good" },
-    { "name": "Boogie Board", "quantity": 2, "owner": "admin@foo.com", "condition": "excellent" }
+    {
+      "clubName": "Accounting Club",
+      "description": "none",
+      "meetingTimes": "none",
+      "location": "none",
+      "url": "none",
+      "contactInfo": "chone@hawaii.edu",
+      "photo": "https://lh3.googleusercontent.com/proxy/upN4HC2rDIatbN7hNowYQFQWOWXcA4lM4rLX0BLd5tb3L480oSOaB3Za2y9VdSXA1joTYVlA23-Yomr4NJkNNNEZfNpSXhvjKzwkKtdELGfOyW0",
+      "category": "Sports, Games",
+      "clubAdmin": "clubadmin",
+      "clubAdminName": "Elton Chon"
+    },
+    {
+      "clubName": "Alpha Omega Hawaii",
+      "description": "none",
+      "meetingTimes": "none",
+      "location": "none",
+      "url": "none",
+      "contactInfo": "micahsmi@hawaii.edu",
+      "photo": "https://lh3.googleusercontent.com/proxy/upN4HC2rDIatbN7hNowYQFQWOWXcA4lM4rLX0BLd5tb3L480oSOaB3Za2y9VdSXA1joTYVlA23-Yomr4NJkNNNEZfNpSXhvjKzwkKtdELGfOyW0",
+      "category": "Music, Games",
+      "clubAdmin": "clubadmin",
+      "clubAdminName": "Micah Miyashiro"
+    },
+    {
+      "clubName": "Anime and Manga Society",
+      "description": "none",
+      "meetingTimes": "none",
+      "location": "none",
+      "url": "none",
+      "contactInfo": "chone@hawaii.edu",
+      "photo": "https://lh3.googleusercontent.com/proxy/upN4HC2rDIatbN7hNowYQFQWOWXcA4lM4rLX0BLd5tb3L480oSOaB3Za2y9VdSXA1joTYVlA23-Yomr4NJkNNNEZfNpSXhvjKzwkKtdELGfOyW0",
+      "category": "Games, Sports",
+      "clubAdmin": "clubadmin",
+      "clubAdminName": "Elton Chon"
+    }
   ]
 }
