@@ -28,12 +28,12 @@ class App extends React.Component {
           <div style={{ paddingTop: '20px', paddingBottom: '30px' }}>
             <Switch>
               <Route exact path="/" component={Landing}/>
-              <ProtectedRoute path="/yourprofile" component={YourEquipment}/>
-              <ProtectedRoute path="/yourSessions" component={YourWorkouts}/>
-              <Route path="/profiles" component={Equipments}/>
-              <Route path="/findprofile" component={FindEquipment}/>
+              <ProtectedRoute path="/yourEquipment" component={YourEquipment}/>
+              <ProtectedRoute path="/yourWorkouts" component={YourWorkouts}/>
+              <Route path="/equipments" component={Equipments}/>
+              <Route path="/findpequipment" component={FindEquipment}/>
               <Route path="/workouts" component={Workouts}/>
-              <ProtectedRoute path="/addSession" component={AddWorkout}/>
+              <ProtectedRoute path="/addWorkout" component={AddWorkout}/>
               <Route path="/signin" component={Signin}/>
               <Route path="/signup" component={Signup}/>
               <ProtectedRoute path="/signout" component={Signout}/>

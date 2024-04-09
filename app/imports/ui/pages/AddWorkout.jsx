@@ -9,8 +9,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { _ } from 'meteor/underscore';
 import PropTypes from 'prop-types';
 import MultiSelectField from '../forms/controllers/MultiSelectField';
-
-import { addSessionMethod } from '../../startup/both/Methods';
+import { addWorkoutMethod } from '../../startup/both/Methods';
 import { Interests } from '../../api/interests/Interests';
 import { Equipments } from '../../api/equipments/Equipments';
 import { EquipmentsInterests } from '../../api/equipments/EquipmentsInterests';
@@ -62,7 +61,7 @@ class AddWorkout extends React.Component {
                 <TextField id='location' name='location' showInlineError={true} placeholder='Location'/>
                 <TextField id='date' name='date' showInlineError={true} placeholder='Date'/>
               </Form.Group>
-              <LongTextField id='description' name='description' placeholder='Describe the session here'/>
+              <LongTextField id='description' name='description' placeholder='Describe the workout here'/>
               <Form.Group widths={'equal'}>
                 <MultiSelectField id='interests' name='interests' showInlineError={true} placeholder={'Interests'}/>
                 <RadioField id='skillLevel' name='skillLevel' inline='true' showInlineError={true} placeholder={'Skill Level'}/>
