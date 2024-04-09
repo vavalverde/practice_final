@@ -1,63 +1,114 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
-import { useTracker } from 'meteor/react-meteor-data';
-import { NavLink } from 'react-router-dom';
+import { withTracker } from 'meteor/react-meteor-data';
+import { withRouter, NavLink } from 'react-router-dom';
+import { Menu, Dropdown, Image } from 'semantic-ui-react';
 import { Roles } from 'meteor/alanning:roles';
-import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
-import { BoxArrowRight, PersonFill, PersonPlusFill } from 'react-bootstrap-icons';
 
-const NavBar = () => {
-  // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
-  const { currentUser } = useTracker(() => ({
-    currentUser: Meteor.user() ? Meteor.user().username : '',
-  }), []);
+/** The NavBar appears at the top of every page. Rendered by the App Layout component. */
+class NavBar extends React.Component {
+  render() {
+    const menuStyle = { marginBottom: '0px', backgroundColor: '#024731' };
+    const textStyle = { color: 'white' };
+    return (
+      <Menu style={menuStyle} attached="top" borderless>
+        <Menu.Item as={NavLink} activeClassName="" exact to="/">
+          <Image size='mini' src="/images/logo.png"/>
+          <span className='white-text' style={{ marginLeft: '10px', fontWeight: 800, fontSize: '24px' }}>Fitness Finder</span>
+        </Menu.Item>
+        {this.props.currentUser ? (
+          <Menu.Item
+            as={NavLink}
+            style={textStyle}
+            id="yourEquipmentMenuItem"
+            activeClassName="active"
+            exact
+            to="/yourEquipment"
+            key='yourEquipment'>Your Equipment</Menu.Item>
+        ) : ''}
+        {this.props.currentUser ? (
+          [<Menu.Item
+            as={NavLink}
+            style={textStyle}
+            id="yourWorkoutsMenuItem"
+            activeClassName="active"
+            exact
+            to="/yourWokrouts"
+            key='yourWorkouts'>Your Workouts
+          </Menu.Item>]
+        ) : ''}
+        <Menu.Item
+          as={NavLink}
+          style={textStyle}
+          id="equipmentsMenuItem"
+          activeClassName="active"
+          exact
+          to="/equipments"
+          key='equipments'>Equipments
+        </Menu.Item>
+        <Menu.Item
+          as={NavLink}
+          style={textStyle}
+          id="findEquipmentMenuItem"
+          activeClassName="active"
+          exact
+          to="/findequipment"
+          key='findequipment'>Find a Equipment
+        </Menu.Item>
+        {this.props.currentUser ? (
+          [<Menu.Item
+            as={NavLink}
+            style={textStyle}
+            id="addWorkoutMenuItem"
+            activeClassName="active"
+            exact
+            to="/addWorkout"
+            key='addP'>Add Workout
+          </Menu.Item>]
+        ) : ''}
+        <Menu.Item
+          as={NavLink}
+          style={textStyle}
+          id="workoutsMenuItem"
+          activeClassName="active"
+          exact
+          to="/workouts"
+          key='workouts'>Find a Workout
+        </Menu.Item>
+        {Roles.userIsInRole(Meteor.userId(), 'admin') ? (
+          <Menu.Item as={NavLink} style={textStyle} id="adminMenuItem" activeClassName="active" exact to="/admin" key='admin'>Admin</Menu.Item>
+        ) : ''}
+        <Menu.Item style={textStyle} position="right">
+          {this.props.currentUser === '' ? (
+            <Dropdown id="login-dropdown" style={textStyle} text="Login" pointing="top right" icon={'user'}>
+              <Dropdown.Menu>
+                <Dropdown.Item id="login-dropdown-sign-in" icon="user" text="Sign In" as={NavLink} exact to="/signin"/>
+                <Dropdown.Item id="login-dropdown-sign-up" icon="add user" text="Sign Up" as={NavLink} exact to="/signup"/>
+              </Dropdown.Menu>
+            </Dropdown>
+          ) : (
+            <Dropdown id="navbar-current-user" text={this.props.currentUser} pointing="top right" icon={'user'}>
+              <Dropdown.Menu>
+                <Dropdown.Item id="navbar-sign-out" icon="sign out" text="Sign Out" as={NavLink} exact to="/signout"/>
+              </Dropdown.Menu>
+            </Dropdown>
+          )}
+        </Menu.Item>
+      </Menu>
+    );
+  }
+}
 
-  return (
-    <Navbar bg="light" expand="lg">
-      <Container>
-        <Navbar.Brand as={NavLink} to="/">
-          <h2>meteor-application-template-react</h2>
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto justify-content-start">
-            {currentUser ? ([
-              <Nav.Link id="add-stuff-nav" as={NavLink} to="/add" key="add">Add Stuff</Nav.Link>,
-              <Nav.Link id="list-stuff-nav" as={NavLink} to="/list" key="list">List Stuff</Nav.Link>,
-            ]) : ''}
-            {Roles.userIsInRole(Meteor.userId(), 'admin') ? (
-              <Nav.Link id="list-stuff-admin-nav" as={NavLink} to="/admin" key="admin">Admin</Nav.Link>
-            ) : ''}
-          </Nav>
-          <Nav className="justify-content-end">
-            {currentUser === '' ? (
-              <NavDropdown id="login-dropdown" title="Login">
-                <NavDropdown.Item id="login-dropdown-sign-in" as={NavLink} to="/signin">
-                  <PersonFill />
-                  Sign
-                  in
-                </NavDropdown.Item>
-                <NavDropdown.Item id="login-dropdown-sign-up" as={NavLink} to="/signup">
-                  <PersonPlusFill />
-                  Sign
-                  up
-                </NavDropdown.Item>
-              </NavDropdown>
-            ) : (
-              <NavDropdown id="navbar-current-user" title={currentUser}>
-                <NavDropdown.Item id="navbar-sign-out" as={NavLink} to="/signout">
-                  <BoxArrowRight />
-                  {' '}
-                  Sign
-                  out
-                </NavDropdown.Item>
-              </NavDropdown>
-            )}
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
-  );
+/** Declare the types of all properties. */
+NavBar.propTypes = {
+  currentUser: PropTypes.string,
 };
 
-export default NavBar;
+/** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
+const NavBarContainer = withTracker(() => ({
+  currentUser: Meteor.user() ? Meteor.user().username : '',
+}))(NavBar);
+
+/** Enable ReactRouter so that links work. */
+export default withRouter(NavBarContainer);

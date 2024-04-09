@@ -1,25 +1,32 @@
 import { Meteor } from 'meteor/meteor';
-import { Roles } from 'meteor/alanning:roles';
-import { Stuffs } from '../../api/stuff/Stuff';
+import { Interests } from '../../api/interests/Interests';
+import { Equipments } from '../../api/equipments/Equipments';
+import { EquipmentsInterests } from '../../api/equipments/EquipmentsInterests';
+import { Workouts } from '../../api/workouts/Workouts';
+import { WorkoutsInterests } from '../../api/workouts/WorkoutsInterests';
+import { EquipmentsWorkouts } from '../../api/equipments/EquipmentsWorkouts';
+import { EquipmentsParticipation } from '../../api/equipments/EquipmentsParticipation';
 
-// User-level publication.
-// If logged in, then publish documents owned by this user. Otherwise, publish nothing.
-Meteor.publish(Stuffs.userPublicationName, function () {
-  if (this.userId) {
-    const username = Meteor.users.findOne(this.userId).username;
-    return Stuffs.collection.find({ owner: username });
-  }
-  return this.ready();
-});
+/** Define a publication to publish all interests. */
+Meteor.publish(Interests.userPublicationName, () => Interests.collection.find());
 
-// Admin-level publication.
-// If logged in and with admin role, then publish all documents from all users. Otherwise, publish nothing.
-Meteor.publish(Stuffs.adminPublicationName, function () {
-  if (this.userId && Roles.userIsInRole(this.userId, 'admin')) {
-    return Stuffs.collection.find();
-  }
-  return this.ready();
-});
+/** Define a publication to publish all profiles. */
+Meteor.publish(Equipments.userPublicationName, () => Equipments.collection.find());
+
+/** Define a publication to publish this collection. */
+Meteor.publish(EquipmentsInterests.userPublicationName, () => EquipmentsInterests.collection.find());
+
+/** Define a publication to publish all projects. */
+Meteor.publish(Workouts.userPublicationName, () => Workouts.collection.find());
+
+/** Define a publication to publish this collection. */
+Meteor.publish(EquipmentsWorkouts.userPublicationName, () => EquipmentsWorkouts.collection.find());
+
+/** Define a publication to publish this collection. */
+Meteor.publish(WorkoutsInterests.userPublicationName, () => WorkoutsInterests.collection.find());
+
+/** Define a publication to publish this collection. */
+Meteor.publish(EquipmentsParticipation.userPublicationName, () => EquipmentsParticipation.collection.find());
 
 // alanning:roles publication
 // Recommended code to publish roles for each user.

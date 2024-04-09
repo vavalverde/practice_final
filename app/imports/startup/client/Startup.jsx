@@ -1,12 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import { render } from 'react-dom';
 import { Meteor } from 'meteor/meteor';
 import App from '../../ui/layouts/App.jsx';
 
-// Startup the application by rendering the App layout component.
+/** Startup the application by rendering the App layout component. */
 Meteor.startup(() => {
-  const root = ReactDOM.createRoot(
-    document.getElementById('root'),
-  );
-  root.render(<App />);
+  render(<App />, document.getElementById('root'));  // eslint-disable-line
 });
