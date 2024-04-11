@@ -7,16 +7,12 @@ import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import Landing from '../pages/Landing';
-import YourEquipment from '../pages/YourEquipment';
 import Equipments from '../pages/Equipments';
-import AddWorkout from '../pages/AddWorkout';
 import Workouts from '../pages/Workouts';
 import NotFound from '../pages/NotFound';
 import Signin from '../pages/Signin';
 import Signup from '../pages/Signup';
 import Signout from '../pages/Signout';
-import YourWorkouts from '../pages/YourWorkouts';
-import FindEquipment from '../pages/FindEquipment';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 class App extends React.Component {
@@ -28,12 +24,8 @@ class App extends React.Component {
           <div style={{ paddingTop: '20px', paddingBottom: '30px' }}>
             <Switch>
               <Route exact path="/" component={Landing}/>
-              <ProtectedRoute path="/yourEquipment" component={YourEquipment}/>
-              <ProtectedRoute path="/yourWorkouts" component={YourWorkouts}/>
               <Route path="/equipments" component={Equipments}/>
-              <Route path="/findequipment" component={FindEquipment}/>
               <Route path="/workouts" component={Workouts}/>
-              <ProtectedRoute path="/addWorkout" component={AddWorkout}/>
               <Route path="/signin" component={Signin}/>
               <Route path="/signup" component={Signup}/>
               <ProtectedRoute path="/signout" component={Signout}/>

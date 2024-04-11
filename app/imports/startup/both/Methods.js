@@ -70,21 +70,6 @@ Meteor.methods({
   },
 });
 
-const addWorkoutMethod = 'Workouts.add';
-
-Meteor.methods({
-  'Workouts.add'({ title, date, description, interests, skillLevel, location, owner }) {
-    const workoutID = Workouts.collection.insert({ title, date, description, skillLevel, location });
-    EquipmentsWorkouts.collection.insert({ profile: owner, workoutID, workout: title });
-    if (interests) {
-      WorkoutsInterests.collection.remove({ workoutID });
-      interests.map(interest => WorkoutsInterests.collection.insert({ workoutID, interest }));
-    } else {
-      throw new Meteor.Error('At least one interest is required.');
-    }
-  },
-});
-
 const deleteWorkoutMethod = 'Workouts.delete';
 
 Meteor.methods({
@@ -96,4 +81,4 @@ Meteor.methods({
   },
 });
 
-export { updateProfileMethod, addWorkoutMethod, joinWorkoutMethod, deleteWorkoutMethod, unJoinWorkoutMethod };
+export { updateProfileMethod, joinWorkoutMethod, deleteWorkoutMethod, unJoinWorkoutMethod };

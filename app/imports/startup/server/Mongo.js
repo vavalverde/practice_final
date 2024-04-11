@@ -4,8 +4,6 @@ import { Roles } from 'meteor/alanning:roles';
 import { Equipments } from '../../api/equipments/Equipments';
 import { EquipmentsInterests } from '../../api/equipments/EquipmentsInterests';
 import { Interests } from '../../api/interests/Interests';
-import { EquipmentsWorkouts } from '../../api/equipments/EquipmentsWorkouts';
-import { WorkoutsInterests } from '../../api/workouts/WorkoutsInterests';
 import { Workouts } from '../../api/workouts/Workouts';
 import { EquipmentsParticipation } from '../../api/equipments/EquipmentsParticipation';
 
@@ -44,26 +42,6 @@ function addEquipment({ firstName, lastName, bio, year, interests, picture, emai
   interests.map(interest => addInterest(interest));
 }
 
-function addWorkout({ title, date, description, interests, skillLevel, location, owner, participants }) {
-  console.log(`Defining workout ${title}`);
-  const workoutID = Workouts.collection.insert({ title, date, description, skillLevel, location });
-  console.log(` _id value is ${workoutID}`);
-  EquipmentsWorkouts.collection.insert({ equipment: owner, workoutID, workout: title });
-  interests.map(interest => WorkoutsInterests.collection.insert({ workoutID: workoutID, interest: interest }));
-  interests.map(interest => addInterest(interest));
-  participants.map(email => joinWorkout(email, workoutID));
-}
-
-if (Meteor.users.find().count() === 0) {
-  if (Meteor.settings.defaultWorkouts && Meteor.settings.defaultEquipments) {
-    console.log('Creating the default equipments');
-    Meteor.settings.defaultEquipments.map(equipment => addEquipment(equipment));
-    console.log('Creating the default workouts');
-    Meteor.settings.defaultWorkouts.map(workout => addWorkout(workout));
-  } else {
-    console.log('Cannot initialize the database!  Please invoke meteor with a settings file.');
-  }
-}
 
 /**
  * If the loadAssetsFile field in settings.development.json is true, then load the data in private/data.json.
@@ -73,10 +51,4 @@ if (Meteor.users.find().count() === 0) {
  * For more info on assets, see https://docs.meteor.com/api/assets.html
  * User count check is to make sure we don't load the file twice, which would generate errors due to duplicate info.
  */
-if ((Meteor.settings.loadAssetsFile) && (Meteor.users.find().count() < 7)) {
-  const assetsFileName = 'data.json';
-  console.log(`Loading data from private/${assetsFileName}`);
-  const jsonData = JSON.parse(Assets.getText(assetsFileName));
-  jsonData.equipments.map(equipment => addEquipment(equipment));
-  jsonData.projects.map(workout => addWorkout(workout));
-}
+

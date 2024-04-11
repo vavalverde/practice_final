@@ -17,27 +17,6 @@ class NavBar extends React.Component {
           <Image size='mini' src="/images/logo.png"/>
           <span className='white-text' style={{ marginLeft: '10px', fontWeight: 800, fontSize: '24px' }}>Fitness Finder</span>
         </Menu.Item>
-        {this.props.currentUser ? (
-          <Menu.Item
-            as={NavLink}
-            style={textStyle}
-            id="yourEquipmentMenuItem"
-            activeClassName="active"
-            exact
-            to="/yourEquipment"
-            key='yourEquipment'>Your Equipment</Menu.Item>
-        ) : ''}
-        {this.props.currentUser ? (
-          [<Menu.Item
-            as={NavLink}
-            style={textStyle}
-            id="yourWorkoutsMenuItem"
-            activeClassName="active"
-            exact
-            to="/yourWokrouts"
-            key='yourWorkouts'>Your Workouts
-          </Menu.Item>]
-        ) : ''}
         <Menu.Item
           as={NavLink}
           style={textStyle}
@@ -47,26 +26,6 @@ class NavBar extends React.Component {
           to="/equipments"
           key='equipments'>Equipments
         </Menu.Item>
-        <Menu.Item
-          as={NavLink}
-          style={textStyle}
-          id="findEquipmentMenuItem"
-          activeClassName="active"
-          exact
-          to="/findequipment"
-          key='findequipment'>Find a Equipment
-        </Menu.Item>
-        {this.props.currentUser ? (
-          [<Menu.Item
-            as={NavLink}
-            style={textStyle}
-            id="addWorkoutMenuItem"
-            activeClassName="active"
-            exact
-            to="/addWorkout"
-            key='addP'>Add Workout
-          </Menu.Item>]
-        ) : ''}
         <Menu.Item
           as={NavLink}
           style={textStyle}
