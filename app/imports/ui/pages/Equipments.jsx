@@ -7,16 +7,14 @@ import { _ } from 'meteor/underscore';
 import { Interests } from '../../api/interests/Interests';
 import { Equipments } from '../../api/equipments/Equipments';
 import { EquipmentsInterests } from '../../api/equipments/EquipmentsInterests';
-import { EquipmentsParticipation } from '../../api/equipments/EquipmentsParticipation';
 import { EquipmentsWorkouts} from '../../api/equipments/EquipmentsWorkouts';
 
 function getEquipmentData(email) {
   const data = Equipments.collection.findOne({ email });
   const interests = _.pluck(EquipmentsInterests.collection.find({ equipment: email }).fetch(), 'interest');
   const workouts = _.pluck(EquipmentsWorkouts.collection.find({ equipment: email }).fetch(), 'workout');
-  const participation = _.pluck(EquipmentsParticipation.collection.find({ equipment: email }).fetch(), 'workout');
   // console.log(_.extend({ }, data, { interests, projects: projectPictures }));
-  return _.extend({}, data, { interests, workouts, participation });
+  return _.extend({}, data, { interests, workouts });
 }
 
 /** Component for layout out a equipment Card. */
@@ -40,10 +38,6 @@ const MakeCard = (props) => (
     <Card.Content extra>
       <Header as='h5'>Workouts</Header>
       {_.map(props.equipment.workouts, (workout, index) => <Label key={index} size='tiny' color='teal'>{workout}</Label>)}
-    </Card.Content>
-    <Card.Content extra>
-      <Header as='h5'>Joined Workouts</Header>
-      {_.map(props.equipment.participation, (workout, index) => <Label key={index} size='tiny' color='teal'>{workout}</Label>)}
     </Card.Content>
   </Card>
 );
@@ -103,9 +97,8 @@ export default withTracker(() => {
   const sub1 = Meteor.subscribe(Equipments.userPublicationName);
   const sub2 = Meteor.subscribe(EquipmentsInterests.userPublicationName);
   const sub3 = Meteor.subscribe(EquipmentsWorkouts.userPublicationName);
-  const sub4 = Meteor.subscribe(EquipmentsParticipation.userPublicationName);
   const sub5 = Meteor.subscribe(Interests.userPublicationName);
   return {
-    ready: sub1.ready() && sub2.ready() && sub3.ready() && sub4.ready() && sub5.ready(),
+    ready: sub1.ready() && sub2.ready() && sub3.ready() && sub5.ready(),
   };
 })(EquipmentsPage);

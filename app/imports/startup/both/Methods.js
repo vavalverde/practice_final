@@ -4,7 +4,6 @@ import { EquipmentsInterests } from '../../api/equipments/EquipmentsInterests';
 import { EquipmentsWorkouts } from '../../api/equipments/EquipmentsWorkouts';
 import { Workouts } from '../../api/workouts/Workouts';
 import { WorkoutsInterests } from '../../api/workouts/WorkoutsInterests';
-import { EquipmentsParticipation } from '../../api/equipments/EquipmentsParticipation';
 
 /**
  * In Bowfolios, insecure mode is enabled, so it is possible to update the server's Mongo database by making
@@ -45,40 +44,14 @@ Meteor.methods({
   },
 });
 
-const joinWorkoutMethod = 'Workout.join';
-
-Meteor.methods({
-  'Workout.join'({ email, workoutID }) {
-    if (EquipmentsParticipation.collection.findOne({ profile: email, workoutID }) ||
-      (EquipmentsWorkouts.collection.findOne({ profile: email, workoutID }))) {
-      throw new Meteor.Error('You already joined this workout.');
-    } else {
-      const workout = ((Workouts.collection.findOne({ _id: workoutID }).title));
-      EquipmentsParticipation.collection.remove({ profile: email, workoutID });
-      EquipmentsParticipation.collection.insert({ profile: email, workoutID, workout });
-
-    }
-  },
-});
-
-const unJoinWorkoutMethod = 'Workout.unJoin';
-
-Meteor.methods({
-  'Workout.unJoin'({ email, workoutID }) {
-    EquipmentsParticipation.collection.remove({ profile: email, workoutID });
-
-  },
-});
-
 const deleteWorkoutMethod = 'Workouts.delete';
 
 Meteor.methods({
   'Workouts.delete'({ workoutID }) {
-    EquipmentsParticipation.collection.remove({ workoutID });
     EquipmentsWorkouts.collection.remove({ workoutID });
     Workouts.collection.remove({ _id: workoutID });
     WorkoutsInterests.collection.remove({ workoutID });
   },
 });
 
-export { updateProfileMethod, joinWorkoutMethod, deleteWorkoutMethod, unJoinWorkoutMethod };
+export { updateProfileMethod, deleteWorkoutMethod };

@@ -10,20 +10,15 @@ import { Equipments } from '../../api/equipments/Equipments';
 import { WorkoutsInterests } from '../../api/workouts/WorkoutsInterests';
 import { Workouts } from '../../api/workouts/Workouts';
 import { EquipmentsWorkouts } from '../../api/equipments/EquipmentsWorkouts';
-import { joinWorkoutMethod } from '../../startup/both/Methods';
-import { EquipmentsParticipation } from '../../api/equipments/EquipmentsParticipation';
 
 /** Gets the Project data as well as Equipments and Interests associated with the passed Project name. */
 function getWorkoutData(value) {
   const data = Workouts.collection.findOne({ _id: value });
   const equipments = _.pluck(EquipmentsWorkouts.collection.find({ workoutID: value }).fetch(), 'equipment');
-  const workoutsParticipants = _.pluck(EquipmentsParticipation.collection.find({ workoutID: value }).fetch(), 'equipment');
   const equipmentName = equipments.map(equipment => (`${Equipments.collection.findOne({ email: equipment }).firstName
   } ${Equipments.collection.findOne({ email: equipment }).lastName}`));
-  const participants = workoutsParticipants.map(equipment => (`${Equipments.collection.findOne({ email: equipment }).firstName
-  } ${Equipments.collection.findOne({ email: equipment }).lastName}`));
   const interests = _.pluck(WorkoutsInterests.collection.find({ workoutID: value }).fetch(), 'interest');
-  return _.extend({ }, data, { interests, creator: equipmentName, participants, value });
+  return _.extend({ }, data, { interests, creator: equipmentName, value });
 }
 
 const handleClick = value => () => (
@@ -63,10 +58,6 @@ const MakeCard = (props) => (
     <Card.Content extra>
       <Header as='h5'>Creator</Header>
       {_.map(props.workout.creator, (p, index) => <List key={index} size='tiny' style={{ color: 'black' }} >{p}</List>)}
-    </Card.Content>
-    <Card.Content extra>
-      <Header as='h5'>Participants</Header>
-      {_.map(props.workout.participants, (p, index) => <List key={index} size='tiny' style={{ color: 'black' }} >{p}</List>)}
     </Card.Content>
     {Meteor.user() ? (
       <Button onClick={handleClick(props.workout.value)}>
@@ -115,8 +106,7 @@ export default withTracker(() => {
   const sub2 = Meteor.subscribe(Workouts.userPublicationName);
   const sub3 = Meteor.subscribe(WorkoutsInterests.userPublicationName);
   const sub4 = Meteor.subscribe(Equipments.userPublicationName);
-  const sub5 = Meteor.subscribe(EquipmentsParticipation.userPublicationName);
   return {
-    ready: sub1.ready() && sub2.ready() && sub3.ready() && sub4.ready() && sub5.ready(),
+    ready: sub1.ready() && sub2.ready() && sub3.ready() && sub4.ready(),
   };
 })(WorkoutsPage);
